@@ -4,7 +4,7 @@ import numpy as np
 print(np.arange(0, 101, 4))
 
 # 2
-
+print(np.arange(20).reshape(5, 4))
 
 # 3
 
