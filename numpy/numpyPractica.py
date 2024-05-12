@@ -63,18 +63,22 @@ print(np.unique(array, return_counts=True))
 
 # 10
 print("\nEjercicio 10\n")
-array = np.random.randint(0, 10, 12).reshape(4, 3)
+array = np.arange(12).reshape(4, 3)
 print(array)
-mean = np.mean(array, axis=1, keepdims=True)
-std = np.std(array, axis=1, keepdims=True)
+mean = np.mean(array, axis=0)
+std = np.std(array, axis=0)
+print("Media: ", mean)
+print("Desv: ", std)
 print((array - mean) / std)
 
 # 11
 print("\nEjercicio 11\n")
-array = np.random.randint(0, 10, 12).reshape(4, 3)
+array = np.arange(1, 24, 2).reshape(4, 3)
 print(array)
-mean = np.mean(array, axis=0, keepdims=True)
-std = np.std(array, axis=0, keepdims=True)
+mean = np.mean(array, axis=1, keepdims=True)
+std = np.std(array, axis=1, keepdims=True)
+print("Media: ", mean)
+print("Desv: ", std)
 print((array - mean) / std)
 
 # 12
@@ -100,12 +104,12 @@ print(array)
 
 # 15
 print("\nEjercicio 15\n")
-array = np.random.randint(0, 100, 32)
+array = np.random.randint(0, 100, 10)
 print(array)
-k = np.random.randint(0, 100)
+k = np.random.randint(2, 3)
 print(k)
-indexes = np.where(array > k)
-print(indexes)
+array = np.argsort(array)
+print(array[-k:])
 
 # 16
 print("\nEjercicio 16\n")
