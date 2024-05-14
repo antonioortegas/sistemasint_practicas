@@ -24,7 +24,7 @@ Scikit-learn
 
 [Docs](https://scikit-learn.org/stable/user_guide.html)
 
-[UCI (Choose a classification dataset)](https://archive.ics.uci.edu/datasets?Task=Classification&skip=0&take=10&sort=desc&orderBy=NumHits&search=)
+[UCI (Choose a classification dataset)](https://archive.ics.uci.edu/)
 
 [Decision Trees](https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html)
 
