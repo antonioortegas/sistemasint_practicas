@@ -1,8 +1,10 @@
 #load the raw .data from the file to give it the correct format
 import csv
+rutaDatasetOriginal = "./scikit/originalDataset/flare.data2"
+rutaCsvResultante = "./scikit/data/flares.csv"
 
 # load the data from the file
-with open("./scikit/data/flare.data2", "r") as f:
+with open(rutaDatasetOriginal, "r") as f:
     data = f.read()
 
 # split the data into rows
@@ -24,7 +26,7 @@ columns = ["",
            "M-class flares",
            "X-class flares",]
 
-with open("./scikit/test.csv", "w", newline="") as f:
+with open(rutaCsvResultante, "w", newline="") as f:
     csv_writer = csv.writer(f)
     csv_writer.writerow(columns)
     for index, row in enumerate(data):
