@@ -11,20 +11,20 @@ with open(rutaDatasetOriginal, "r") as f:
 data = data.split('\n')
 data = data[1:-1] # remove header because it is not part of the data and the last empty line
 # 
-columns = ["",
-           "modifed Zurich class",
-           "largest spot size",
-           "spot distribution",
+columns = ["index",
+           "modifedZurichClass",
+           "largestSpotSize",
+           "spotDistribution",
            "activity",
            "evolution",
-           "previous 24 hr flare activity code",
-           "historically-complex",
-           "did region become historically complex",
+           "previousDailyActivity",
+           "historicallyComplex",
+           "becameHistoricallyComplex",
            "area",
-           "largest spot area",
-           "C-class flares",
-           "M-class flares",
-           "X-class flares",]
+           "largestSpotArea",
+           "cFlares",
+           "mFlares",
+           "xFlares",]
 
 with open(rutaCsvResultante, "w", newline="") as f:
     csv_writer = csv.writer(f)
