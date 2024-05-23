@@ -1,5 +1,5 @@
 #pip install ucimlrepo
-from ucimlrepo import fetch_ucirepo 
+from ucimlrepo import fetch_ucirepo  # type: ignore
   
 # fetch dataset 
 solar_flare = fetch_ucirepo(id=89) 
