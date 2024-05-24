@@ -1,7 +1,7 @@
 #load the raw .data from the file to give it the correct format
 import csv
-rutaDatasetOriginal = "./scikit/originalDataset/flare.data2"
-rutaCsvResultante = "./scikit/data/flares.csv"
+rutaDatasetOriginal = "./scikit/flares/originalDataset/flare.data2"
+rutaCsvResultante = "./scikit/flares/flares.csv"
 
 # load the data from the file
 with open(rutaDatasetOriginal, "r") as f:
