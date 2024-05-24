@@ -12,7 +12,7 @@ pathToCsv = "./scikit/data/data.csv"
 kf = KFold(n_splits=10)
 
 # load the dataframe from the csv file
-# the csv has ; as separator instead of , for some reason
+# the csv has ; as separator instead of , for some dumb reason
 df = pd.read_csv(pathToCsv, sep=';')
 # in the last column, substitute all values "Enrolled" with "Graduate"
 # this is so that the target column has only 2 values. Since the dataset does not have any discernible way to determine if a student will continue or not
@@ -20,6 +20,9 @@ df = pd.read_csv(pathToCsv, sep=';')
 # this seems to have had the biggest impact on the accuracy, jumping from ~0.73 to ~0.85 in both models
 df["Target"] = df["Target"].replace("Enrolled", "Graduate")
 print(df.head())
+# print number of dropouts, and number of graduates
+print("Number of dropouts: ", len(df[df["Target"] == "Dropout"]))
+print("Number of graduates: ", len(df[df["Target"] == "Graduate"]))
 
 # convert the target column to a numerical value, 0 for Dropout, 1 for Enrolled, 2 for Graduate
 le = LabelEncoder()
@@ -77,7 +80,7 @@ multilayer_perceptron = MLPClassifier()
 
 # define some values for each hyperparameter as a starting point
 param_grid = {
-    'hidden_layer_sizes': [(100,), (100, 100), (10,), (20, 20,)], # doesn't seem to matter much
+    'hidden_layer_sizes': [(100,), (100, 100), (10,), (20, 20,)], # doesn't seem matter too much
     'solver': ['adam'], # doesn't seem to matter much
     'max_iter': [500],
     'alpha': [0.1,0.2, 0.5, 0.01], # between 0.1 and 0.5 seems to be ok
