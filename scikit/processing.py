@@ -1,4 +1,5 @@
 import pandas as pd
+import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import cross_val_score
 from sklearn.tree import DecisionTreeClassifier
@@ -7,9 +8,12 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.neural_network import MLPClassifier
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import KFold
+from sklearn.metrics import roc_curve, auc, roc_auc_score, RocCurveDisplay
+from sklearn.model_selection import cross_validate
+import numpy as np
 
 pathToCsv = "./scikit/data/data.csv"
-kf = KFold(n_splits=10)
+kf = KFold(n_splits=10, shuffle=True)
 
 # load the dataframe from the csv file
 # the csv has ; as separator instead of , for some dumb reason
@@ -59,9 +63,9 @@ decision_tree = DecisionTreeClassifier()
 # define some values for each hyperparameter as a starting point
 param_grid = {
     'criterion': ['gini'], # doesn't seem to matter much, so I'll fix it to gini
-    'max_depth': [2, 3, 4, 5, 7, ], # 10 is already overfitting, so i will try around 5. 3 to 4 seems to be the best
-    'min_samples_split': [2, 4], # doesn't seem to matter much, so I'll fix it to 2 which is the default
-    'min_samples_leaf': [1, 2], # doesn't seem to matter much, so I'll fix it to 1 which is the default
+    'max_depth': [4], # 10 is already overfitting, so i will try around 5. 3 to 4 seems to be the best
+    'min_samples_split': [2], # doesn't seem to matter much, so I'll fix it to 2 which is the default
+    'min_samples_leaf': [1], # doesn't seem to matter much, so I'll fix it to 1 which is the default
     # overall this seems to improve the accuracy from 0.79 to 0.85
 }
 
@@ -80,10 +84,10 @@ multilayer_perceptron = MLPClassifier()
 
 # define some values for each hyperparameter as a starting point
 param_grid = {
-    'hidden_layer_sizes': [(100,), (100, 100), (10,), (20, 20,)], # doesn't seem matter too much
+    'hidden_layer_sizes': [(10,)], # doesn't seem matter too much
     'solver': ['adam'], # doesn't seem to matter much
     'max_iter': [500],
-    'alpha': [0.1,0.2, 0.5, 0.01], # between 0.1 and 0.5 seems to be ok
+    'alpha': [0.2], # between 0.1 and 0.5 seems to be ok
     'learning_rate_init': [0.01],
     'activation': ['relu'], # doesn't seem to matter much
 }
@@ -97,5 +101,26 @@ results = pd.DataFrame(grid_search.cv_results_)
 results = results[['params', 'mean_test_score']]
 print(results.to_string())
 
+# use cross_validate to get some metrics
+# metrics to calculate
+scoring = ['accuracy', 'f1', 'precision', 'recall']
+
+# Evaluate Decision Tree
+decision_tree_scores = cross_validate(best_decision_tree, X_test, y_test, cv=kf, scoring=scoring)
+print(decision_tree_scores)
+print("Decision Tree")
+for metric in scoring:
+    print(f"{metric}: {decision_tree_scores['test_' + metric].mean()}")
+
+# Evaluate Neural Network
+mlp_scores = cross_validate(best_neural_network, X_test, y_test, cv=kf, scoring=scoring)
+print("\nNeural Network")
+# cross_validate returns a dictionary with the scores for each metric
+# to access each score, we need to access the key 'test_' + name_of_the_metric
+# then we can calculate the mean for that metric
+for metric in scoring:
+    print(f"{metric}: {mlp_scores['test_' + metric].mean()}")
+# TODO see if this metrics are enough
+    
 # TODO plotting the ROC curve for both best models
-# TODO show various metrics for comparison
+# TODO dunno if I should use cv for the curves or not
