@@ -45,11 +45,24 @@ print(X.columns)
 
 # Standardize the features
 scaler = StandardScaler() # after testing, the type of scaler doesn't seem to matter much, so I'll use the default one
-X_scaled = scaler.fit_transform(X)
+for col in X.columns:
+    # scale and return a df column
+    X[col] = scaler.fit_transform(X[[col]])
 # big impact on the accuracy on the mlp is the scaling of the features when using all the columns
 # since some of the eliminated columns have bigger values by orders of magnitude in some cases
 # comment the following line and the drop columns one to see the difference in accuracy
-X = X_scaled
+
+# Define bins for discretization (you can adjust the number of bins as needed)
+num_bins = 5
+
+# Get the names of the continuous columns
+continuous_columns = X.columns
+
+# Discretize continuous columns
+for col in continuous_columns:
+    X[col] = pd.cut(X[col], bins=num_bins, labels=False)
+    
+print(X[:30])
 
 # split the data into training and testing sets
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)
@@ -80,12 +93,14 @@ multilayer_perceptron = MLPClassifier()
 
 # define some values for each hyperparameter as a starting point
 param_grid = {
-    'hidden_layer_sizes': [(10,)],
+    'hidden_layer_sizes': [(50,),(20,),(20, 20, 20)],
     'solver': ['adam'],
     'max_iter': [500],
-    'alpha': [0.2],
-    'learning_rate_init': [0.01],
+    'alpha': [0.02],
+    'learning_rate_init': [0.01, 0.1],
+    'learning_rate': ['adaptive'],
     'activation': ['relu'],
+    'early_stopping': [True],
 }
 # validate with 10K-fold cross validation
 grid_search = GridSearchCV(estimator=multilayer_perceptron, param_grid=param_grid, cv=kf, scoring='accuracy', n_jobs=-1, verbose=1)

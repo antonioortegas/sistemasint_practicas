@@ -105,7 +105,7 @@ scoring = ['accuracy', 'f1', 'precision', 'recall']
 
 # Evaluate Decision Tree
 decision_tree_scores = cross_validate(best_decision_tree, X_test, y_test, cv=kf, scoring=scoring)
-print(decision_tree_scores)
+#print(decision_tree_scores)
 print("Decision Tree")
 for metric in scoring:
     print(f"{metric}: {decision_tree_scores['test_' + metric].mean()}")
