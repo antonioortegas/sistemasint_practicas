@@ -53,7 +53,7 @@ X_scaled = scaler.fit_transform(X)
 X = X_scaled
 
 # split the data into training and testing sets
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 
 # train a decision tree model and calculate the accuracy
 decision_tree = DecisionTreeClassifier()
